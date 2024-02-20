@@ -19,23 +19,23 @@ class Day1Part2KtTest : StringSpec({
     }
 
     "test convert forward" {
-        convertForward("two1nine") shouldBe "219"
-        convertForward("eightwothree") shouldBe "8wo3"
-        convertForward("abcone2threexyz") shouldBe "abc123xyz"
-        convertForward("xtwone3four") shouldBe "x2ne34"
-        convertForward("4nineeightseven2") shouldBe "49872"
-        convertForward("zoneight234") shouldBe "z1ight234"
-        convertForward("7pqrstsixteen") shouldBe "7pqrst6teen"
+        convertForward("two1nine") shouldBe 2
+        convertForward("eightwothree") shouldBe 8
+        convertForward("abcone2threexyz") shouldBe 1
+        convertForward("xtwone3four") shouldBe 2
+        convertForward("4nineeightseven2") shouldBe 4
+        convertForward("zoneight234") shouldBe 1
+        convertForward("7pqrstsixteen") shouldBe 7
     }
 
     "test convert backward" {
-        convertBackward("two1nine") shouldBe "219"
-        convertBackward("eightwothree") shouldBe "eigh23"
-        convertBackward("abcone2threexyz") shouldBe "abc123xyz"
-        convertBackward("xtwone3four") shouldBe "xtw134"
-        convertBackward("4nineeightseven2") shouldBe "49872"
-        convertBackward("zoneight234") shouldBe "zon8234"
-        convertBackward("7pqrstsixteen") shouldBe "7pqrst6teen"
+        convertBackward("two1nine") shouldBe 9
+        convertBackward("eightwothree") shouldBe 3
+        convertBackward("abcone2threexyz") shouldBe 3
+        convertBackward("xtwone3four") shouldBe 4
+        convertBackward("4nineeightseven2") shouldBe 2
+        convertBackward("zoneight234") shouldBe 4
+        convertBackward("7pqrstsixteen") shouldBe 6
     }
 
     "get pairs" {
