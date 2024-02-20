@@ -2,8 +2,8 @@ package me.blzr.aoc2023.day1
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import me.blzr.aoc2023.day1.getPair
-import me.blzr.aoc2023.day1.process
+import me.blzr.aoc2023.day1.Day1Part1.getPair
+import me.blzr.aoc2023.day1.Day1Part1.process
 
 class Day1Part1KtTest : StringSpec({
     "lines" {
