@@ -2,6 +2,9 @@ package me.blzr.aoc2023.day1
 
 import java.util.stream.Stream
 
+/**
+ * 54194 is too low
+ */
 object Day1Part2 {
     @JvmStatic
     fun main(vararg args: String) {
@@ -12,8 +15,8 @@ object Day1Part2 {
         this.map { getPairReplacing(it) }.reduce(0, Int::plus)
 
     fun getPairReplacing(s: String): Int {
-        val first = convert(s).find { it in '0'..'9' }!! - '0'
-        val last = convert(s).findLast { it in '0'..'9' }!! - '0'
+        val first = convertForward(s).find { it in '0'..'9' }!! - '0'
+        val last = convertBackward(s).findLast { it in '0'..'9' }!! - '0'
         return first * 10 + last
     }
 
@@ -29,7 +32,10 @@ object Day1Part2 {
         "nine" to 9,
     )
 
-    fun convert(s: String): String {
+    val numbersReversed =
+        numbers.mapKeys { (k, _) -> k.reversed() }
+
+    fun convertForward(s: String): String {
         val newLine = StringBuilder()
         val buffer = StringBuilder()
 
@@ -52,6 +58,29 @@ object Day1Part2 {
         return newLine.toString()
     }
 
+    fun convertBackward(s: String): String {
+        val newLine = StringBuilder()
+        val buffer = StringBuilder()
+
+        for (c in s.reversed()) {
+            buffer.append(c)
+
+            if (!numbersReversed.keys.anyPrefix(buffer)) {
+                while (buffer.isNotEmpty() && !numbersReversed.keys.anyPrefix(buffer)) {
+                    buffer shift newLine
+                }
+            } else if (buffer.toString() in numbersReversed.keys) {
+                newLine.append(numbersReversed[buffer.toString()])
+                buffer.clear()
+            }
+        }
+
+        // Put remaining buffer
+        newLine.append(buffer)
+
+        return newLine.toString().reversed()
+    }
+
     fun Set<String>.anyPrefix(prefix: CharSequence): Boolean =
         this.any { it.startsWith(prefix) }
 
@@ -62,4 +91,6 @@ object Day1Part2 {
 
         this.delete(0, 1)
     }
+
+    fun String.reversed(): String = StringBuilder(this).reverse().toString()
 }
