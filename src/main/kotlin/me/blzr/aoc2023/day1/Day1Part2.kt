@@ -35,8 +35,9 @@ fun convert(s: String): String {
         buffer.append(c)
 
         if (!numbers.keys.anyPrefix(buffer)) {
-            newLine.append(buffer)
-            buffer.clear()
+            while (buffer.isNotEmpty() && !numbers.keys.anyPrefix(buffer)) {
+                buffer shift newLine
+            }
         } else if (buffer.toString() in numbers.keys) {
             newLine.append(numbers[buffer.toString()])
             buffer.clear()
@@ -48,3 +49,11 @@ fun convert(s: String): String {
 
 fun Set<String>.anyPrefix(prefix: CharSequence): Boolean =
     this.any { it.startsWith(prefix) }
+
+infix fun StringBuilder.shift(target: StringBuilder) {
+    if (this.isEmpty()) return
+
+    target.append(this[0])
+
+    this.delete(0, 1)
+}
