@@ -1,4 +1,4 @@
-package me.blzr.aoc2023
+package me.blzr.aoc2023.day1
 
 import kotlin.streams.asSequence
 
