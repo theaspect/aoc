@@ -15,6 +15,7 @@ object Day1Part2 {
         this.map { getPairReplacing(it) }.reduce(0, Int::plus)
 
     fun getPairReplacing(s: String): Int {
+        if (convertBackward(s) != convertForward(s)) println(s)
         val first = convertForward(s).find { it in '0'..'9' }!! - '0'
         val last = convertBackward(s).findLast { it in '0'..'9' }!! - '0'
         return first * 10 + last

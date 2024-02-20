@@ -48,6 +48,11 @@ class Day1Part2KtTest : StringSpec({
         getPairReplacing("7pqrstsixteen") shouldBe 76
     }
 
+    "additional cases" {
+        getPairReplacing("6oneightskl") shouldBe 68
+        getPairReplacing("nleightwo7") shouldBe 87
+    }
+
     "whole" {
         Stream.of(
             "two1nine",
