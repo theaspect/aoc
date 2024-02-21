@@ -69,7 +69,7 @@ object Day3Part1 {
         return result
     }
 
-    fun List<PartLine>.filterMatches(): List<Int> =
+    fun List<PartLine>.filterMatches(): Set<Int> =
         this
             // Iterate over lines with symbols
             .filter(PartLine::hasSymbols)
@@ -96,6 +96,8 @@ object Day3Part1 {
             }
             .distinct()
             .map(Pair<Int, IntRange>::first)
+            // For ease of testing
+            .toSet()
 
     fun Map<Int, IntRange>.filterMatchesVertical(pos: Int) =
         this.entries

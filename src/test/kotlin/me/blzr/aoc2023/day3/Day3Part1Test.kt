@@ -4,10 +4,32 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import me.blzr.aoc2023.day3.Day3Part1.extractNumbers
 import me.blzr.aoc2023.day3.Day3Part1.extractSymbols
+import me.blzr.aoc2023.day3.Day3Part1.filterMatches
 import me.blzr.aoc2023.day3.Day3Part1.filterMatchesHorizontal
 import me.blzr.aoc2023.day3.Day3Part1.filterMatchesVertical
+import me.blzr.aoc2023.day3.Day3Part1.parseLine
 
 class Day3Part1Test : StringSpec({
+    "filterMatches" {
+        listOf(
+            "467..114..",
+            "...*......",
+            "..35..633.",
+            "......#...",
+            "617*......",
+            ".....+.58.",
+            "..592.....",
+            "......755.",
+            "...$.*....",
+            ".664.598..",
+        )
+            .map(::parseLine)
+            .filterMatches() shouldBe
+                setOf(467, 35, 633, 617, 592, 755, 664, 598)
+    }
+
+
+
     "extractSymbols" {
         extractSymbols("467..114..") shouldBe emptyList()
         extractSymbols("...*......") shouldBe listOf(3)
