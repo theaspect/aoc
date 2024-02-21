@@ -6,7 +6,7 @@ import java.io.File
  * 327998 is too low
  * 546563
  */
-object Day3Part1 {
+object Day3Part2 {
     @JvmStatic
     fun main(vararg args: String) {
         println(System.`in`.bufferedReader().lines().toList().process())
@@ -25,29 +25,29 @@ object Day3Part1 {
      * .664.598..
      */
     fun List<String>.process(): Int {
-        val results: Set<Match> = this
+        val results: List<List<Match>> = this
             .map(::parseLine)
             .filterMatches()
 
         renderDebug(this, results)
 
-        return results
-            .map(Match::num)
-            .sum()
+        return results.sumOf { (a, b) -> a.num * b.num }
     }
 
-    fun renderDebug(lines: List<String>, matches: Set<Match>) {
+    fun renderDebug(lines: List<String>, matches: List<List<Match>>) {
         val debug: MutableList<String> = lines.toMutableList()
 
-        for ((line, num, range) in matches) {
-            try {
-                debug[line] = debug[line].replaceRange(range, "_".repeat(range.last - range.first + 1))
-            } catch (e: Exception) {
-                println("Incorrect match $line, $num, $range")
+        for (gear in matches) {
+            for ((line, num, range) in gear) {
+                try {
+                    debug[line] = debug[line].replaceRange(range, "_".repeat(range.last - range.first + 1))
+                } catch (e: Exception) {
+                    println("Incorrect match $line, $num, $range")
+                }
             }
         }
 
-        File("day3part1.debug").writeText(debug.joinToString("\n"))
+        File("day3part2.debug").writeText(debug.joinToString("\n"))
     }
 
     fun parseLine(line: String): PartLine =
@@ -59,7 +59,7 @@ object Day3Part1 {
     fun extractSymbols(line: String): List<Int> =
         line.mapIndexedNotNull { index, c ->
             when {
-                c !in '0'..'9' && c != '.' -> index
+                c == '*' -> index
                 else -> null
             }
         }
@@ -95,50 +95,49 @@ object Day3Part1 {
         return result
     }
 
-    fun List<PartLine>.filterMatches(): Set<Match> =
+    fun List<PartLine>.filterMatches(): List<List<Match>> =
         this
             .flatMapIndexed { line, partLine ->
-                partLine.symbols.flatMap { symbol ->
+                partLine.symbols.mapNotNull { symbol ->
                     findMatches(
                         lines = this@filterMatches,
                         line = line,
                         symbolPos = symbol
                     )
                 }
-            }.toSet()
+            }
 
-    fun Set<Pair<Int, IntRange>>.filterMatchesVertical(pos: Int) =
+    fun Set<Pair<Int, IntRange>>.filterMatchesByLine(pos: Int) =
         this
             .filter { (_, range) -> pos in range.inc() }
             .map { (num, range) -> num to range }
 
-    fun Map<Int, IntRange>.filterMatchesHorizontal(pos: Int) =
-        this.entries
-            .filter { (_, range) ->
-                pos == range.first - 1 || pos == range.last + 1
-            }
-            .map { (num, range) -> num to range }
-
     fun IntRange.inc() = IntRange(this.first - 1, this.last + 1)
 
-    fun findMatches(lines: List<PartLine>, line: Int, symbolPos: Int): Set<Match> {
+    fun findMatches(lines: List<PartLine>, line: Int, symbolPos: Int): List<Match>? {
         val result: MutableSet<Match> = mutableSetOf()
 
         // Check above
         if (line > 0) {
             result.addAll(
-                lines[line - 1].numbers.filterMatchesVertical(symbolPos).map { Match(line - 1, it.first, it.second) })
+                lines[line - 1].numbers.filterMatchesByLine(symbolPos).map { Match(line - 1, it.first, it.second) })
         }
 
         // Check the same line
-        result.addAll(lines[line].numbers.filterMatchesVertical(symbolPos).map { Match(line, it.first, it.second) })
+        result.addAll(lines[line].numbers.filterMatchesByLine(symbolPos).map { Match(line, it.first, it.second) })
 
         // Check the line below
         if (line < lines.size - 1) {
             result.addAll(
-                lines[line + 1].numbers.filterMatchesVertical(symbolPos).map { Match(line + 1, it.first, it.second) })
+                lines[line + 1].numbers.filterMatchesByLine(symbolPos).map { Match(line + 1, it.first, it.second) })
         }
 
-        return result
+        // Return only gears
+        return when {
+            result.size != 2 -> null
+            else -> result.toList()
+        }
     }
 }
+
+
