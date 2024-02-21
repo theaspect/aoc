@@ -25,6 +25,19 @@ class Day3Part1Test : StringSpec({
             "...$.*....",
             ".664.598..",
         ).process() shouldBe 4361
+
+        listOf(
+            "467..114..",
+            "...*......",
+            "..35...633", //Modified
+            "......#...",
+            "617*......",
+            ".....+.58.",
+            "..592.....",
+            "......755.",
+            ".....*....",
+            ".664*598..", // Modified
+        ).process() shouldBe 4361
     }
     "filterMatches" {
         listOf(

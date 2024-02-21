@@ -1,5 +1,8 @@
 package me.blzr.aoc2023.day3
 
+/**
+ * 327998 is too low
+ */
 object Day3Part1 {
     @JvmStatic
     fun main(vararg args: String) {
