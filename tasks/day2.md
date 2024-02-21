@@ -1,56 +1,4 @@
-# Advent of Code 2023
-
-# --- Day 1: Trebuchet?! ---
-
-Something is wrong with global snow production, and you've been selected to take a look. The Elves have even given you a map; on it, they've used stars to mark the top fifty locations that are likely to be having problems.
-
-You've been doing this long enough to know that to restore snow operations, you need to check all fifty stars by December 25th.
-
-Collect stars by solving puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
-
-You try to ask why they can't just use a weather machine ("not powerful enough") and where they're even sending you ("the sky") and why your map looks mostly blank ("you sure ask a lot of questions") and hang on did you just say the sky ("of course, where do you think snow comes from") when you realize that the Elves are already loading you into a trebuchet ("please hold still, we need to strap you in").
-
-As they're making the final adjustments, they discover that their calibration document (your puzzle input) has been amended by a very young Elf who was apparently just excited to show off her art skills. Consequently, the Elves are having trouble reading the values on the document.
-
-The newly-improved calibration document consists of lines of text; each line originally contained a specific calibration value that the Elves now need to recover. On each line, the calibration value can be found by combining the first digit and the last digit (in that order) to form a single two-digit number.
-
-For example:
-
-```
-1abc2
-pqr3stu8vwx
-a1b2c3d4e5f
-treb7uchet
-```
-
-In this example, the calibration values of these four lines are 12, 38, 15, and 77. Adding these together produces 142.
-
-Consider your entire calibration document. What is the sum of all of the calibration values?
-
-Your puzzle answer was 54940.
-
-The first half of this puzzle is complete! It provides one gold star: *
-
---- Part Two ---
-
-Your calculation isn't quite right. It looks like some of the digits are actually spelled out with letters: one, two, three, four, five, six, seven, eight, and nine also count as valid "digits".
-
-Equipped with this new information, you now need to find the real first and last digit on each line. For example:
-
-```
-two1nine
-eightwothree
-abcone2threexyz
-xtwone3four
-4nineeightseven2
-zoneight234
-7pqrstsixteen
-```
-In this example, the calibration values are 29, 83, 13, 24, 42, 14, and 76. Adding these together produces 281.
-
-What is the sum of all of the calibration values?
-
-# --- Day 2: Cube Conundrum ---
+--- Day 2: Cube Conundrum ---
 You're launched high into the atmosphere! The apex of your trajectory just barely reaches the surface of a large island floating in the sky. You gently land in a fluffy pile of leaves. It's quite cold, but you don't see much snow. An Elf runs over to greet you.
 
 The Elf explains that you've arrived at Snow Island and apologizes for the lack of snow. He'll be happy to explain the situation, but it's a bit of a walk, so you have some time. They don't get many visitors up here; would you like to play a game in the meantime?
@@ -86,11 +34,14 @@ As you continue your walk, the Elf poses a second question: in each game you pla
 
 Again consider the example games from earlier:
 
+```
 Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
 Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
 Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
 Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
+```
+
 In game 1, the game could have been played with as few as 4 red, 2 green, and 6 blue cubes. If any color had even one fewer cube, the game would have been impossible.
 Game 2 could have been played with a minimum of 1 red, 3 green, and 4 blue cubes.
 Game 3 must have been played with at least 20 red, 13 green, and 6 blue cubes.
