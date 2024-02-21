@@ -1,7 +1,10 @@
 package me.blzr.aoc2023.day3
 
+import java.io.File
+
 /**
  * 327998 is too low
+ * 546563
  */
 object Day3Part1 {
     @JvmStatic
@@ -21,11 +24,31 @@ object Day3Part1 {
      * ...$.*....
      * .664.598..
      */
-    fun List<String>.process(): Int =
-        this
+    fun List<String>.process(): Int {
+        val results: Set<Match> = this
             .map(::parseLine)
             .filterMatches()
+
+        renderDebug(this, results)
+
+        return results
+            .map(Match::num)
             .sum()
+    }
+
+    fun renderDebug(lines: List<String>, matches: Set<Match>) {
+        val debug: MutableList<String> = lines.toMutableList()
+
+        for ((line, num, range) in matches) {
+            try {
+                debug[line] = debug[line].replaceRange(range, "_".repeat(range.last - range.first + 1))
+            } catch (e: Exception) {
+                println("Incorrect match $line, $num, $range")
+            }
+        }
+
+        File("task3.debug").writeText(debug.joinToString("\n"))
+    }
 
     fun parseLine(line: String): PartLine =
         PartLine(
@@ -41,8 +64,8 @@ object Day3Part1 {
             }
         }
 
-    fun extractNumbers(line: String): Map<Int, IntRange> {
-        val result: MutableMap<Int, IntRange> = mutableMapOf()
+    fun extractNumbers(line: String): Set<Pair<Int, IntRange>> {
+        val result: MutableSet<Pair<Int, IntRange>> = mutableSetOf()
         var from = 0
         var buf = 0
 
@@ -53,7 +76,7 @@ object Day3Part1 {
                 }
 
                 from != i -> {
-                    result[buf] = from..<i
+                    result.add(buf to from..<i)
                     from = i + 1
                     buf = 0
                 }
@@ -66,13 +89,13 @@ object Day3Part1 {
 
         // Don't forget about buffer if the number ends the line
         if (from != line.length) {
-            result[buf] = from..<line.length
+            result.add(buf to from..<line.length)
         }
 
         return result
     }
 
-    fun List<PartLine>.filterMatches(): Set<Int> =
+    fun List<PartLine>.filterMatches(): Set<Match> =
         this
             .flatMapIndexed { line, partLine ->
                 partLine.symbols.flatMap { symbol ->
@@ -82,14 +105,10 @@ object Day3Part1 {
                         symbolPos = symbol
                     )
                 }
-            }
-            .distinct()
-            .map(Pair<Int, IntRange>::first)
-            // For ease of testing
-            .toSet()
+            }.toSet()
 
-    fun Map<Int, IntRange>.filterMatchesVertical(pos: Int) =
-        this.entries
+    fun Set<Pair<Int, IntRange>>.filterMatchesVertical(pos: Int) =
+        this
             .filter { (_, range) -> pos in range.inc() }
             .map { (num, range) -> num to range }
 
@@ -102,20 +121,22 @@ object Day3Part1 {
 
     fun IntRange.inc() = IntRange(this.first - 1, this.last + 1)
 
-    fun findMatches(lines: List<PartLine>, line: Int, symbolPos: Int): Set<Pair<Int, IntRange>> {
-        val result: MutableSet<Pair<Int, IntRange>> = mutableSetOf()
+    fun findMatches(lines: List<PartLine>, line: Int, symbolPos: Int): Set<Match> {
+        val result: MutableSet<Match> = mutableSetOf()
 
         // Check above
         if (line > 0) {
-            result.addAll(lines[line - 1].numbers.filterMatchesVertical(symbolPos))
+            result.addAll(
+                lines[line - 1].numbers.filterMatchesVertical(symbolPos).map { Match(line - 1, it.first, it.second) })
         }
 
         // Check the same line
-        result.addAll(lines[line].numbers.filterMatchesVertical(symbolPos))
+        result.addAll(lines[line].numbers.filterMatchesVertical(symbolPos).map { Match(line, it.first, it.second) })
 
         // Check the line below
         if (line < lines.size - 1) {
-            result.addAll(lines[line + 1].numbers.filterMatchesVertical(symbolPos))
+            result.addAll(
+                lines[line + 1].numbers.filterMatchesVertical(symbolPos).map { Match(line + 1, it.first, it.second) })
         }
 
         return result
@@ -123,9 +144,15 @@ object Day3Part1 {
 }
 
 data class PartLine(
-    val numbers: Map<Int, IntRange>,
+    val numbers: Set<Pair<Int, IntRange>>,
     val symbols: List<Int>
 ) {
     val hasSymbols: Boolean
         get() = symbols.isNotEmpty()
 }
+
+data class Match(
+    val line: Int,
+    val num: Int,
+    val range: IntRange,
+)

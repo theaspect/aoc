@@ -43,3 +43,6 @@ bin/
 
 ### IntelliJIDEA ###
 .idea
+
+### Debug ###
+*.debug
