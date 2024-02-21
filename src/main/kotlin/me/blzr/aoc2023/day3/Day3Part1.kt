@@ -69,16 +69,53 @@ object Day3Part1 {
         return result
     }
 
-    fun List<PartLine>.filterMatches(): List<Int> {
-        // Iterate over lines
-        // Iterate over symbols
-        // Check if number is in range
-        // filter
-        TODO()
-    }
+    fun List<PartLine>.filterMatches(): List<Int> =
+        this
+            // Iterate over lines with symbols
+            .filter(PartLine::hasSymbols)
+            .flatMapIndexed { line, partLine ->
+                partLine.symbols.flatMap { symbolPos ->
+                    val result: MutableList<Pair<Int, IntRange>> = mutableListOf()
+                    val lines: List<PartLine> = this@filterMatches
+
+                    // Check above
+                    if (line > 0) {
+                        result.addAll(lines[line - 1].numbers.filterMatchesVertical(symbolPos))
+                    }
+
+                    // Check the same line
+                    result.addAll(lines[line].numbers.filterMatchesVertical(symbolPos))
+
+                    // Check the line below
+                    if (line < lines.size - 1) {
+                        result.addAll(lines[line + 1].numbers.filterMatchesVertical(symbolPos))
+                    }
+
+                    emptyList<Pair<Int, IntRange>>()
+                }
+            }
+            .distinct()
+            .map(Pair<Int, IntRange>::first)
+
+    fun Map<Int, IntRange>.filterMatchesVertical(pos: Int) =
+        this.entries
+            .filter { (_, range) -> pos in range.inc() }
+            .map { (num, range) -> num to range }
+
+    fun Map<Int, IntRange>.filterMatchesHorizontal(pos: Int) =
+        this.entries
+            .filter { (_, range) ->
+                pos == range.first - 1 || pos == range.last + 1
+            }
+            .map { (num, range) -> num to range }
+
+    fun IntRange.inc() = IntRange(this.first - 1, this.last + 1)
 }
 
 data class PartLine(
     val numbers: Map<Int, IntRange>,
     val symbols: List<Int>
-)
+) {
+    val hasSymbols: Boolean
+        get() = symbols.isNotEmpty()
+}

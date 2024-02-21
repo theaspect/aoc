@@ -4,6 +4,8 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import me.blzr.aoc2023.day3.Day3Part1.extractNumbers
 import me.blzr.aoc2023.day3.Day3Part1.extractSymbols
+import me.blzr.aoc2023.day3.Day3Part1.filterMatchesHorizontal
+import me.blzr.aoc2023.day3.Day3Part1.filterMatchesVertical
 
 class Day3Part1Test : StringSpec({
     "extractSymbols" {
@@ -32,5 +34,51 @@ class Day3Part1Test : StringSpec({
         extractNumbers(".664.598..") shouldBe mapOf(664 to 1..3, 598 to 5..7)
         // Additional line
         extractNumbers(".......598") shouldBe mapOf(598 to 7..9)
+    }
+
+    /**
+     * 123 *
+     *  234*
+     *   345
+     *    456
+     *     567
+     *     *678
+     *     * 789
+     */
+    "filterMatchesVertical" {
+        mapOf(
+            1 to 1..3,
+            2 to 2..4,
+            3 to 3..5,
+            4 to 4..6,
+            5 to 5..7,
+            6 to 6..8,
+            7 to 7..9,
+        ).filterMatchesVertical(5) shouldBe listOf(
+            2 to 2..4,
+            3 to 3..5,
+            4 to 4..6,
+            5 to 5..7,
+            6 to 6..8,
+        )
+    }
+
+    /**
+     *  234*
+     *     *678
+     */
+    "filterMatchesHorizontal" {
+        mapOf(
+            1 to 1..3,
+            2 to 2..4,
+            3 to 3..5,
+            4 to 4..6,
+            5 to 5..7,
+            6 to 6..8,
+            7 to 7..9,
+        ).filterMatchesHorizontal(5) shouldBe listOf(
+            2 to 2..4,
+            6 to 6..8,
+        )
     }
 })
