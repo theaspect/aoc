@@ -54,6 +54,10 @@ object Day3Part1 {
                     from = i + 1
                     buf = 0
                 }
+
+                else -> {
+                    from = i + 1
+                }
             }
         }
 

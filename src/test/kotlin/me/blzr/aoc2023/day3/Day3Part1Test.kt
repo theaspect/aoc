@@ -26,9 +26,11 @@ class Day3Part1Test : StringSpec({
         extractNumbers("......#...") shouldBe emptyMap<Int, IntRange>()
         extractNumbers("617*......") shouldBe mapOf(617 to 0..2)
         extractNumbers(".....+.58.") shouldBe mapOf(58 to 7..8)
-        extractNumbers("..592.....") shouldBe mapOf(529 to 2..4)
+        extractNumbers("..592.....") shouldBe mapOf(592 to 2..4)
         extractNumbers("......755.") shouldBe mapOf(755 to 6..8)
         extractNumbers("...$.*....") shouldBe emptyMap<Int, IntRange>()
         extractNumbers(".664.598..") shouldBe mapOf(664 to 1..3, 598 to 5..7)
+        // Additional line
+        extractNumbers(".......598") shouldBe mapOf(598 to 7..9)
     }
 })
