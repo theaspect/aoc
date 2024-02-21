@@ -71,27 +71,13 @@ object Day3Part1 {
 
     fun List<PartLine>.filterMatches(): Set<Int> =
         this
-            // Iterate over lines with symbols
-            .filter(PartLine::hasSymbols)
             .flatMapIndexed { line, partLine ->
-                partLine.symbols.flatMap { symbolPos ->
-                    val result: MutableList<Pair<Int, IntRange>> = mutableListOf()
-                    val lines: List<PartLine> = this@filterMatches
-
-                    // Check above
-                    if (line > 0) {
-                        result.addAll(lines[line - 1].numbers.filterMatchesVertical(symbolPos))
-                    }
-
-                    // Check the same line
-                    result.addAll(lines[line].numbers.filterMatchesVertical(symbolPos))
-
-                    // Check the line below
-                    if (line < lines.size - 1) {
-                        result.addAll(lines[line + 1].numbers.filterMatchesVertical(symbolPos))
-                    }
-
-                    emptyList<Pair<Int, IntRange>>()
+                partLine.symbols.flatMap { symbol ->
+                    findMatches(
+                        lines = this@filterMatches,
+                        line = line,
+                        symbolPos = symbol
+                    )
                 }
             }
             .distinct()
@@ -112,6 +98,25 @@ object Day3Part1 {
             .map { (num, range) -> num to range }
 
     fun IntRange.inc() = IntRange(this.first - 1, this.last + 1)
+
+    fun findMatches(lines: List<PartLine>, line: Int, symbolPos: Int): Set<Pair<Int, IntRange>> {
+        val result: MutableSet<Pair<Int, IntRange>> = mutableSetOf()
+
+        // Check above
+        if (line > 0) {
+            result.addAll(lines[line - 1].numbers.filterMatchesVertical(symbolPos))
+        }
+
+        // Check the same line
+        result.addAll(lines[line].numbers.filterMatchesVertical(symbolPos))
+
+        // Check the line below
+        if (line < lines.size - 1) {
+            result.addAll(lines[line + 1].numbers.filterMatchesVertical(symbolPos))
+        }
+
+        return result
+    }
 }
 
 data class PartLine(

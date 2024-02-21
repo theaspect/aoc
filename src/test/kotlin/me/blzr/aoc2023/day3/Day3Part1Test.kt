@@ -7,9 +7,25 @@ import me.blzr.aoc2023.day3.Day3Part1.extractSymbols
 import me.blzr.aoc2023.day3.Day3Part1.filterMatches
 import me.blzr.aoc2023.day3.Day3Part1.filterMatchesHorizontal
 import me.blzr.aoc2023.day3.Day3Part1.filterMatchesVertical
+import me.blzr.aoc2023.day3.Day3Part1.findMatches
 import me.blzr.aoc2023.day3.Day3Part1.parseLine
+import me.blzr.aoc2023.day3.Day3Part1.process
 
 class Day3Part1Test : StringSpec({
+    "all" {
+        listOf(
+            "467..114..",
+            "...*......",
+            "..35..633.",
+            "......#...",
+            "617*......",
+            ".....+.58.",
+            "..592.....",
+            "......755.",
+            "...$.*....",
+            ".664.598..",
+        ).process() shouldBe 4361
+    }
     "filterMatches" {
         listOf(
             "467..114..",
@@ -28,7 +44,27 @@ class Day3Part1Test : StringSpec({
                 setOf(467, 35, 633, 617, 592, 755, 664, 598)
     }
 
+    "findMatches" {
+        val lines = listOf(
+            "467..114..",
+            "...*......",
+            "..35..633.",
+            "......#...",
+            "617*......",
+            ".....+.58.",
+            "..592.....",
+            "......755.",
+            "...$.*....",
+            ".664.598..",
+        ).map(::parseLine)
 
+        findMatches(lines, 1, 3) shouldBe setOf(467 to 0..2, 35 to 2..3)
+        findMatches(lines, 3, 6) shouldBe setOf(633 to 6..8)
+        findMatches(lines, 4, 3) shouldBe setOf(617 to 0..2)
+        findMatches(lines, 5, 5) shouldBe setOf(592 to 2..4)
+        findMatches(lines, 8, 3) shouldBe setOf(664 to 1..3)
+        findMatches(lines, 8, 5) shouldBe setOf(755 to 6..8, 598 to 5..7)
+    }
 
     "extractSymbols" {
         extractSymbols("467..114..") shouldBe emptyList()
