@@ -20,8 +20,11 @@ echo.
 ::echo day 3 part 2
 ::type tests\day3.txt | java -cp build\libs\aoc2023-1.0-SNAPSHOT-all.jar me.blzr.aoc2023.day3.Day3Part2
 
-echo day 4 part 1
-type tests\day4.txt | java -cp build\libs\aoc2023-1.0-SNAPSHOT-all.jar me.blzr.aoc2023.day4.Day4Part1
+::echo day 4 part 1
+::type tests\day4.txt | java -cp build\libs\aoc2023-1.0-SNAPSHOT-all.jar me.blzr.aoc2023.day4.Day4Part1
 
-echo day 4 part 2
-type tests\day4.txt | java -cp build\libs\aoc2023-1.0-SNAPSHOT-all.jar me.blzr.aoc2023.day4.Day4Part2
+::echo day 4 part 2
+::type tests\day4.txt | java -cp build\libs\aoc2023-1.0-SNAPSHOT-all.jar me.blzr.aoc2023.day4.Day4Part2
+
+echo day 5 part 1
+type tests\day5.txt | java -cp build\libs\aoc2023-1.0-SNAPSHOT-all.jar me.blzr.aoc2023.day5.Day5Part1

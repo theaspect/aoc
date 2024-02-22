@@ -1,13 +1,16 @@
 package me.blzr.aoc2023.day5
 
-import java.util.stream.Stream
+import me.alllex.parsus.parser.getOrThrow
 
 object Day5Part1 {
     @JvmStatic
     fun main(vararg args: String) {
-        println(System.`in`.bufferedReader().lines().process())
+        println(System.`in`.bufferedReader().readText().process())
     }
 
-    fun Stream<String>.process(): Int = TODO()
+    fun String.process(): Long =
+        AlmanachGrammar().parse(this).getOrThrow()
+            .translate()
+            .minOf { it.location }
 }
 
