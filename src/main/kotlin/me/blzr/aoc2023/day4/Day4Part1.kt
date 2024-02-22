@@ -1,21 +1,30 @@
 package me.blzr.aoc2023.day4
 
-import me.alllex.parsus.parser.Grammar
-import me.alllex.parsus.parser.parser
-import me.alllex.parsus.parser.repeatOneOrMore
-import me.alllex.parsus.parser.skip
+import me.alllex.parsus.parser.*
 import me.alllex.parsus.token.literalToken
 import me.alllex.parsus.token.regexToken
+import java.util.stream.Stream
 
 object Day4Part1 {
     @JvmStatic
     fun main(vararg args: String) {
-        println(System.`in`.bufferedReader().lines().toList().process())
+        println(System.`in`.bufferedReader().lines().process())
     }
 
-    fun List<String>.process(): Int {
-        TODO()
-    }
+    fun Stream<String>.process(): Int = this
+        .map { grammar.parse(it).getOrThrow() }
+        .collect()
+
+    fun Stream<Card>.collect(): Int = this
+        .map { it.intersection }
+        .map {
+            when {
+                it.isEmpty() -> 0
+                else -> Math.pow(2.0, it.size - 1.0).toInt()
+            }
+        }
+        .reduce(Int::plus)
+        .get()
 
     /**
      * Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
@@ -33,19 +42,22 @@ object Day4Part1 {
 
         override val root by parser {
             skip(tokenCard)
-            val id = cardNum().text.toInt()
+            val id: Int = cardNum().text.toInt()
             skip(colon)
-            val nums = repeatOneOrMore(num).map { it.text.toInt() }.toSet()
+            val wins: Set<Int> = repeatOneOrMore(num).map { it.text.toInt() }.toSet()
             skip(pipe)
-            val wins = repeatOneOrMore(num).map { it.text.toInt() }.toSet()
+            val nums: Set<Int> = repeatOneOrMore(num).map { it.text.toInt() }.toSet()
 
-            Card(id, nums, wins)
+            Card(id, wins, nums)
         }
     }
 
     data class Card(
         val id: Int,
-        val nums: Set<Int>,
         val wins: Set<Int>,
-    )
+        val nums: Set<Int>,
+    ) {
+        val intersection: Set<Int>
+            get() = nums.intersect(wins)
+    }
 }
