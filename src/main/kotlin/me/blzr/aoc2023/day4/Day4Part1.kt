@@ -18,8 +18,8 @@ object Day4Part1 {
         .map { it.intersection }
         .map {
             when {
-                it.isEmpty() -> 0
-                else -> Math.pow(2.0, it.size - 1.0).toInt()
+                it == 0 -> 0
+                else -> Math.pow(2.0, it - 1.0).toInt()
             }
         }
         .reduce(Int::plus)

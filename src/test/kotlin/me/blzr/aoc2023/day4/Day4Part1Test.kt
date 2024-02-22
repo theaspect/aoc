@@ -3,7 +3,6 @@ package me.blzr.aoc2023.day4
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import me.alllex.parsus.parser.getOrThrow
-import me.blzr.aoc2023.day4.Day4Part1.Card
 import me.blzr.aoc2023.day4.Day4Part1.collect
 import me.blzr.aoc2023.day4.Day4Part1.grammar
 
@@ -22,12 +21,12 @@ class Day4Part1Test : StringSpec({
     }
 
     "intersection" {
-        cards[0].intersection shouldBe setOf(48, 83, 17, 86)
-        cards[1].intersection shouldBe setOf(32, 61)
-        cards[2].intersection shouldBe setOf(1, 21)
-        cards[3].intersection shouldBe setOf(84)
-        cards[4].intersection shouldBe setOf()
-        cards[5].intersection shouldBe setOf()
+        cards[0].intersection shouldBe 4
+        cards[1].intersection shouldBe 2
+        cards[2].intersection shouldBe 2
+        cards[3].intersection shouldBe 1
+        cards[4].intersection shouldBe 0
+        cards[5].intersection shouldBe 0
     }
 
     "all" {

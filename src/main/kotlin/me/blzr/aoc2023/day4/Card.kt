@@ -5,6 +5,5 @@ data class Card(
     val wins: Set<Int>,
     val nums: Set<Int>,
 ) {
-    val intersection: Set<Int>
-        get() = nums.intersect(wins)
+    val intersection: Int = nums.intersect(wins).size
 }
