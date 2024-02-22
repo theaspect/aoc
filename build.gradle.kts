@@ -3,7 +3,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
-group = "com.blzr"
+group = "me.blzr"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -11,6 +11,8 @@ repositories {
 }
 
 dependencies {
+    implementation("me.alllex.parsus:parsus:0.6.1")
+
     testImplementation("io.kotest:kotest-runner-junit5:5.8.0")
     testImplementation("io.kotest:kotest-assertions-core:5.8.0")
 }
