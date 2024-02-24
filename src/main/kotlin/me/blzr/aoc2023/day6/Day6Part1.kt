@@ -14,7 +14,8 @@ object Day6Part1 {
         RaceGrammar().parse(this).getOrThrow()
             .process()
 
-    fun List<Race>.process(): Int = TODO()
+    fun List<Race>.process(): Int =
+        this.map { it.winners() }.reduce(Int::times)
 }
 
 class RaceGrammar : Grammar<List<Race>>() {
@@ -42,4 +43,11 @@ class RaceGrammar : Grammar<List<Race>>() {
 data class Race(
     val time: Int,
     val record: Int,
-)
+) {
+    fun winners(): Int =
+        sequence {
+            for (i in 0..<time) {
+                yield(i * (time - i))
+            }
+        }.filter { it > record }.count()
+}
