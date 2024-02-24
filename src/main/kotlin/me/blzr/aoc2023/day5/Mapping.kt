@@ -21,6 +21,40 @@ data class Mapping(
 fun Long.translate(mapping: List<Mapping>): Long =
     mapping.firstNotNullOfOrNull { it.tryTranslate(this@translate) } ?: this@translate
 
+
+infix fun Range.overlap(other: Range): Range? {
+    val thisRange: LongRange = this.range
+    val otherRange: LongRange = other.range
+
+    return when {
+        // this: 4..6
+        // that: 1..3
+        thisRange.first > otherRange.last ||
+                // this: 1..3
+                // that: 4..6
+                thisRange.last < otherRange.first -> null
+
+        // this: 1..3
+        // that: 2..4
+
+        // this: 1..5
+        // that: 2..3
+        thisRange.first > otherRange.first ->
+            Range(
+                thisRange.first, minOf(thisRange.last, otherRange.last) - thisRange.first + 1
+            )
+
+        // this: 2..4
+        // that: 1..3
+
+        // this: 2..3
+        // that: 1..5
+        else -> Range(
+            otherRange.first, minOf(thisRange.last, otherRange.last) - otherRange.first + 1
+        )
+    }
+}
+
 /**
  * We assume range from 0..Int.MAX_VALUE
  */

@@ -95,4 +95,14 @@ class Day5Part2Test : StringSpec({
             )
         )
     }
+
+    "overlap" {
+        Range(1, 2) overlap Range(3, 2) shouldBe null
+        Range(3, 2) overlap Range(0, 2) shouldBe null
+
+        Range(1, 3) overlap Range(3, 3) shouldBe Range(3, 1)
+        Range(1, 3) overlap Range(2, 3) shouldBe Range(2, 2)
+        Range(2, 3) overlap Range(1, 3) shouldBe Range(2, 2)
+        Range(1, 4) overlap Range(2, 2) shouldBe Range(2, 2)
+    }
 })
