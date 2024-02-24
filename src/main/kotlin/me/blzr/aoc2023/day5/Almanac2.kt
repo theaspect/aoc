@@ -10,14 +10,21 @@ data class Almanac2(
     val temperatureToHumidity: List<Mapping>,
     val humidityToLocation: List<Mapping>,
 ) {
+    val seedToSoilFull = seedToSoil.fillUp()
+    val soilToFertilizerFull = soilToFertilizer.fillUp()
+    val fertilizerToWaterFull = fertilizerToWater.fillUp()
+    val waterToLightFull = waterToLight.fillUp()
+    val lightToTemperatureFull = lightToTemperature.fillUp()
+    val temperatureToHumidityFull = temperatureToHumidity.fillUp()
+    val humidityToLocationFull = humidityToLocation.fillUp()
+
     fun translate(): Long = seeds
-        .translate(seedToSoil)
-        .translate(soilToFertilizer)
-        .translate(fertilizerToWater)
-        .translate(waterToLight)
-        .translate(lightToTemperature)
-        .translate(temperatureToHumidity)
-        .translate(humidityToLocation)
-        .minBy { it.src }
-        .src
+        .translate(seedToSoilFull)
+        .translate(soilToFertilizerFull)
+        .translate(fertilizerToWaterFull)
+        .translate(waterToLightFull)
+        .translate(lightToTemperatureFull)
+        .translate(temperatureToHumidityFull)
+        .translate(humidityToLocationFull)
+        .minOf { it.src }
 }

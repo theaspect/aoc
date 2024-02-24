@@ -17,7 +17,7 @@ class Day5Part2Test : StringSpec({
             Mapping(30, 20, 10),
             Mapping(30, 30, 10), // Added
             Mapping(40, 40, 10),
-            Mapping(50, 50, Long.MAX_VALUE - 50 + 1),
+            Mapping(50, 50, Long.MAX_VALUE - 50),
         )
     }
 
@@ -110,52 +110,28 @@ class Day5Part2Test : StringSpec({
     "all" {
         almanac.seeds.minOf { it.src } shouldBe 55
 
-        almanac.seeds
-            .translate(almanac.seedToSoil).minOf { it.src } shouldBe 57
+        almanac.seeds.translate(almanac.seedToSoilFull) shouldBe
+                listOf(Range(57, 13), Range(81, 14))
 
         almanac.seeds
-            .translate(almanac.seedToSoil)
-            .translate(almanac.soilToFertilizer)
-            .minOf { it.src } shouldBe 84
+            .translate(almanac.seedToSoilFull)
+            .translate(almanac.soilToFertilizerFull) shouldBe
+                listOf(Range(57, 13), Range(81, 14))
 
         almanac.seeds
-            .translate(almanac.seedToSoil)
-            .translate(almanac.soilToFertilizer)
-            .translate(almanac.fertilizerToWater)
-            .minOf { it.src } shouldBe 84
+            .translate(almanac.seedToSoilFull)
+            .translate(almanac.soilToFertilizerFull)
+            .translate(almanac.fertilizerToWaterFull) shouldBe
+                listOf(Range(53, 4), Range(61, 9), Range(81, 14))
 
         almanac.seeds
-            .translate(almanac.seedToSoil)
-            .translate(almanac.soilToFertilizer)
-            .translate(almanac.fertilizerToWater)
-            .translate(almanac.waterToLight)
-            .minOf { it.src } shouldBe 77
-
-        almanac.seeds
-            .translate(almanac.seedToSoil)
-            .translate(almanac.soilToFertilizer)
-            .translate(almanac.fertilizerToWater)
-            .translate(almanac.waterToLight)
-            .translate(almanac.lightToTemperature)
-            .minOf { it.src } shouldBe 45
-
-        almanac.seeds
-            .translate(almanac.seedToSoil)
-            .translate(almanac.soilToFertilizer)
-            .translate(almanac.fertilizerToWater)
-            .translate(almanac.waterToLight)
-            .translate(almanac.lightToTemperature)
-            .translate(almanac.temperatureToHumidity)
-            .minOf { it.src } shouldBe 46
-
-        almanac.seeds
-            .translate(almanac.seedToSoil)
-            .translate(almanac.soilToFertilizer)
-            .translate(almanac.fertilizerToWater)
-            .translate(almanac.waterToLight)
-            .translate(almanac.lightToTemperature)
-            .translate(almanac.temperatureToHumidity)
-            .translate(almanac.humidityToLocation)
+            .translate(almanac.seedToSoilFull)
+            .translate(almanac.soilToFertilizerFull)
+            .translate(almanac.fertilizerToWaterFull)
+            .translate(almanac.waterToLightFull)
+            .translate(almanac.lightToTemperatureFull)
+            .translate(almanac.temperatureToHumidityFull)
+            .translate(almanac.humidityToLocationFull)
             .minOf { it.src } shouldBe 46
 
         text.process() shouldBe 46

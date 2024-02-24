@@ -97,7 +97,7 @@ fun List<Mapping>.fillUp(): List<Mapping> {
                     Mapping(
                         last.src + last.len,
                         last.src + last.len,
-                        Long.MAX_VALUE - (last.src + last.len) + 1
+                        Long.MAX_VALUE - (last.src + last.len)
                     )
                 )
 
