@@ -6,11 +6,12 @@ data class Mapping(
     val len: Long,
 ) : Comparable<Mapping> {
     val delta = dst - src
-    val range = src..<src + len
+    val longRange = src..<src + len
+    val range: Range = Range(src, len)
 
     fun tryTranslate(src: Long): Long? =
         when {
-            src in range -> src + delta
+            src in longRange -> src + delta
             else -> null
         }
 
@@ -21,6 +22,20 @@ data class Mapping(
 fun Long.translate(mapping: List<Mapping>): Long =
     mapping.firstNotNullOfOrNull { it.tryTranslate(this@translate) } ?: this@translate
 
+/**
+ * Shift each range by each mapping probably producing null or empty list
+ */
+fun List<Range>.translate(mapping: List<Mapping>): List<Range> {
+    val translated: MutableList<Range> = mutableListOf()
+
+    for (r: Range in this) {
+        for (m: Mapping in mapping) {
+            (r overlap m.range)?.shift(m.delta)?.let { translated.add(it) }
+        }
+    }
+
+    return translated.sortedBy { it.src }
+}
 
 infix fun Range.overlap(other: Range): Range? {
     val thisRange: LongRange = this.range

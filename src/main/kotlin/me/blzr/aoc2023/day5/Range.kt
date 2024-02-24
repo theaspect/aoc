@@ -5,4 +5,6 @@ data class Range(
     val len: Long,
 ) {
     val range: LongRange = src..<src + len
+
+    fun shift(delta: Long): Range = Range(src + delta, len)
 }

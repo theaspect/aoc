@@ -9,8 +9,7 @@ object Day5Part2 {
     }
 
     fun String.process(): Long =
-        AlmanacGrammar1().parse(this).getOrThrow()
+        AlmanacGrammar2().parse(this).getOrThrow()
             .translate()
-            .minOf { it.location }
 }
 
