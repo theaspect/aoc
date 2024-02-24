@@ -2,7 +2,7 @@ package me.blzr.aoc2023.day5
 
 import me.alllex.parsus.parser.getOrThrow
 
-object Day5Part1 {
+object Day5Part2 {
     @JvmStatic
     fun main(vararg args: String) {
         println(System.`in`.bufferedReader().readText().process())

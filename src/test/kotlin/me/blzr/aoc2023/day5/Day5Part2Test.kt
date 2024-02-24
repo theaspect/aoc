@@ -3,9 +3,23 @@ package me.blzr.aoc2023.day5
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import me.alllex.parsus.parser.getOrThrow
-import me.blzr.aoc2023.day5.Day5Part1.process
 
-class Day5Part1Test : StringSpec({
+class Day5Part2Test : StringSpec({
+    "FillMapping" {
+        listOf(
+            Mapping(20, 10, 10),
+            Mapping(30, 20, 10),
+            Mapping(40, 40, 10)
+        ).fillUp() shouldBe listOf(
+            Mapping(0, 0, 10), // Added
+            Mapping(20, 10, 10),
+            Mapping(30, 20, 10),
+            Mapping(30, 30, 10), // Added
+            Mapping(40, 40, 10),
+            Mapping(50, 50, Long.MAX_VALUE - 50 + 1),
+        )
+    }
+
     val text = """
         seeds: 79 14 55 13
         
@@ -42,11 +56,11 @@ class Day5Part1Test : StringSpec({
         56 93 4
     """
 
-    val almanac = AlmanacGrammar1().parse(text).getOrThrow()
+    val almanac = AlmanacGrammar2().parse(text).getOrThrow()
 
     "parse" {
-        almanac shouldBe Almanac1(
-            seeds = listOf(79, 14, 55, 13),
+        almanac shouldBe Almanac2(
+            seeds = listOf(Range(79, 14), Range(55, 13)),
             seedToSoil = listOf(
                 Mapping(50, 98, 2),
                 Mapping(52, 50, 48),
@@ -80,54 +94,5 @@ class Day5Part1Test : StringSpec({
                 Mapping(56, 93, 4),
             )
         )
-    }
-
-    "translate" {
-        almanac.translate() shouldBe listOf(
-            Rule(
-                seed = 79,
-                soil = 81,
-                fertilizer = 81,
-                water = 81,
-                light = 74,
-                temperature = 78,
-                humidity = 78,
-                location = 82
-            ),
-            Rule(
-                seed = 14,
-                soil = 14,
-                fertilizer = 53,
-                water = 49,
-                light = 42,
-                temperature = 42,
-                humidity = 43,
-                location = 43
-            ),
-            Rule(
-                seed = 55,
-                soil = 57,
-                fertilizer = 57,
-                water = 53,
-                light = 46,
-                temperature = 82,
-                humidity = 82,
-                location = 86
-            ),
-            Rule(
-                seed = 13,
-                soil = 13,
-                fertilizer = 52,
-                water = 41,
-                light = 34,
-                temperature = 34,
-                humidity = 35,
-                location = 35
-            ),
-        )
-    }
-
-    "all" {
-        text.process() shouldBe 35
     }
 })
