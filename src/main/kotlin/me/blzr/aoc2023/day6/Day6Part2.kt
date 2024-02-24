@@ -4,21 +4,18 @@ import me.alllex.parsus.parser.*
 import me.alllex.parsus.token.literalToken
 import me.alllex.parsus.token.regexToken
 
-object Day6Part1 {
+object Day6Part2 {
     @JvmStatic
     fun main(vararg args: String) {
         println(System.`in`.bufferedReader().readText().process())
     }
 
     fun String.process(): Int =
-        RaceGrammar().parse(this).getOrThrow()
-            .process()
-
-    fun List<Race>.process(): Int =
-        this.map { it.winners() }.reduce(Int::times)
+        RaceGrammar2().parse(this).getOrThrow()
+            .winners()
 }
 
-class RaceGrammar : Grammar<List<Race>>() {
+class RaceGrammar2 : Grammar<Race>() {
     init {
         regexToken("\\s+", ignored = true)
     }
@@ -27,15 +24,13 @@ class RaceGrammar : Grammar<List<Race>>() {
     val distance = literalToken("Distance:")
     val num = regexToken("\\d+")
 
-    override val root: Parser<List<Race>> = parser {
+    override val root: Parser<Race> = parser {
         skip(time)
-        val times = repeatOneOrMore(num).map { it.text.toLong() }
+        val time = repeatOneOrMore(num).map { it.text }.joinToString("").toLong()
         skip(distance)
-        val distance = repeatOneOrMore(num).map { it.text.toLong() }
+        val distance = repeatOneOrMore(num).map { it.text }.joinToString("").toLong()
 
-        times.zip(distance).map { (time, distance) ->
-            Race(time, distance)
-        }
-
+        Race(time, distance)
     }
 }
+
